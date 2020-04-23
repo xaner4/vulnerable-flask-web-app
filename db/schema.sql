@@ -3,15 +3,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` TEXT CHECK ( LENGTH(username) <= 255) UNIQUE NOT NULL,
   `password` TEXT NOT NULL,
   `registred_at` INTEGER,
-  `role` TEXT CHECK( role in ('admin', 'moderator', 'author', 'viewer', 'blocked') ),
-  FOREIGN KEY (role) REFERENCES `roles` (`role_name`)
+  `role` TEXT CHECK( role in ('admin', 'moderator', 'author', 'guest', 'blocked') ),
+  FOREIGN KEY (`role`) REFERENCES `roles` (`role_name`)
 );
 
 CREATE TABLE IF NOT EXISTS `last_online_user` (
   `online_id` INTEGER PRIMARY KEY,
   `online_time` INTEGER,
   `user` INTEGER,
-  FOREIGN KEY (user) REFERENCES `user` (`user_id`)
+  FOREIGN KEY (`user`) REFERENCES `user` (`user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `user_tokens` (
@@ -19,12 +19,11 @@ CREATE TABLE IF NOT EXISTS `user_tokens` (
   `token` TEXT CHECK ( LENGTH(token) <= 255),
   `created` INTEGER,
   `valid_until` INTEGER,
-  FOREIGN KEY (user) REFERENCES `user` (`user_id`)
+  FOREIGN KEY (`user`) REFERENCES `user` (`user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `roles` (
-  `role_name` TEXT CHECK( role_name in ('admin', 'moderator', 'author', 'viewer', 'blocked') ) PRIMARY KEY,
-  FOREIGN KEY (role_name) REFERENCES `roles` (`role_name`)
+  `role_name` TEXT CHECK( role_name in ('admin', 'moderator', 'author', 'guest', 'blocked') ) PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS `role_permission` (
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `role_permission` (
   `add_user` INTEGER CHECK ( add_user IN (0,1) ),
   `view_user` INTEGER CHECK ( view_user IN (0,1) ),
   `remove_user` INTEGER CHECK ( remove_user IN (0,1) ),
-  FOREIGN KEY (role_name) REFERENCES `user` (`user_id`)
+  FOREIGN KEY (`role_name`) REFERENCES `roles` (`role_name`)
 );
 
 CREATE TABLE IF NOT EXISTS `post` (
@@ -48,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `edited_at` INTEGER,
   `article` text,
   `visebility`TEXT CHECK( visebility IN ('public', 'hidden', 'private') ),
-  FOREIGN KEY (post_id) REFERENCES `post` (`post_id`)
+  FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `comments` (
@@ -57,11 +56,33 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `comment_author` INTEGER,
   `commemts` text,
   `upvotes` INTEGER,
-  FOREIGN KEY (comment_author) REFERENCES `user` (`user_id`)
+  FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
+  FOREIGN KEY (`comment_author`) REFERENCES `user` (`user_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `replyTo` (
   `thread_id` INTEGER PRIMARY KEY,
   `comment_id` INTEGER,
-  FOREIGN KEY (comment_id) REFERENCES `comments` (`comment_id`) 
+  FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`) 
 );
+
+INSERT INTO roles (role_name) VALUES ("admin");
+INSERT INTO roles (role_name) VALUES ("moderator");
+INSERT INTO roles (role_name) VALUES ("author");
+INSERT INTO roles (role_name) VALUES ("guest");
+INSERT INTO roles (role_name) VALUES ("blocked");
+
+INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
+VALUES ("admin",1,1,1,1,1,1,1,1,1); 
+
+INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
+VALUES ("moderator",1,1,1,1,1,1,1,0,0); 
+
+INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
+VALUES ("author",1,1,1,1,1,1,0,0,0); 
+
+INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
+VALUES ("guest",1,0,0,0,0,0,0,0,0); 
+
+INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
+VALUES ("blocked",0,0,0,0,0,0,0,0,0);
