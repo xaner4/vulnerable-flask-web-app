@@ -63,26 +63,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
 CREATE TABLE IF NOT EXISTS `replyTo` (
   `thread_id` INTEGER PRIMARY KEY,
   `comment_id` INTEGER,
-  FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`) 
+  FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`)
 );
 
-INSERT INTO roles (role_name) VALUES ("admin");
-INSERT INTO roles (role_name) VALUES ("moderator");
-INSERT INTO roles (role_name) VALUES ("author");
-INSERT INTO roles (role_name) VALUES ("guest");
-INSERT INTO roles (role_name) VALUES ("blocked");
+INSERT INTO roles (role_name)
+VALUES ("admin"),("moderator"),("author"),("guest"),("blocked");
 
 INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
-VALUES ("admin",1,1,1,1,1,1,1,1,1); 
-
-INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
-VALUES ("moderator",1,1,1,1,1,1,1,0,0); 
-
-INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
-VALUES ("author",1,1,1,1,1,1,0,0,0); 
-
-INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
-VALUES ("guest",1,0,0,0,0,0,0,0,0); 
-
-INSERT INTO role_permission (role_name,write_comment,edit_comments,remove_comments,write_posts,edit_post,remove_posts,add_user,view_user,remove_user)
-VALUES ("blocked",0,0,0,0,0,0,0,0,0);
+VALUES ("admin",1,1,1,1,1,1,1,1,1),
+("moderator",1,1,1,1,1,1,1,0,0),
+("author",1,1,1,1,1,1,0,0,0),
+("guest",1,0,0,0,0,0,0,0,0),
+("blocked",0,0,0,0,0,0,0,0,0);
