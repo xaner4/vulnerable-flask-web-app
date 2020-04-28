@@ -36,17 +36,35 @@ class DB:
         db = DB.open_db()
         posts = db.execute("SELECT * FROM post").fetchall()
         return posts
-    
+
     def get_post(post_id):
         db = DB.open_db()
         post = db.execute(f"SELECT * FROM post WHERE post_id = {post_id}").fetchone()
         return post
-    
+
     def add_post(author_id, publised_at, header, article, visebility):
         db = DB.open_db()
-        db.execute(f""" 
-            INSERT INTO post ("post_id", "author_id", "publised_at", "edited_at", "header", "article", "visebility") 
+        db.execute(f"""
+            INSERT INTO post ("author_id", "publised_at", "header", "article", "visebility")
             VALUES  ({author_id}, {publised_at}, {header}, {article}, {visebility})""")
+        db.commit()
+    
+    def edit_post(post_id, edited_at, header, article, visebility):
+        db = DB.open_db()
+        db.execute(f"""
+        update post
+        set edited_at = {edited_at}, 
+            header = {header}, 
+            article = {article}, 
+            visebility = {visebility}
+        where post_id = {post_id}
+        """)
+        db.commit()
+    
+    def delete_post(post_id):
+        db = DB.open_db()
+        db.execute("DELETE FROM post WHERE id = {post_id}")
+        db.commit()
 
 
 @click.command("init-db")
