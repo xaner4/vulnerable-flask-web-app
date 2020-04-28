@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `edited_at` INTEGER,
   `header` TEXT,
   `article` TEXT,
-  `visebility`TEXT CHECK( visebility IN ('public', 'hidden', 'private') ),
+  `visebility`TEXT DEFAULT "hidden" CHECK( visebility IN ('public', 'hidden', 'private') ) ,
   FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`)
 );
 
