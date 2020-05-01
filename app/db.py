@@ -16,6 +16,7 @@ else:
 schema = os.path.join(db_path, "schema.sql")
 
 class DB:
+
     def open_db():
         if "db" not in g:
             g.db = sqlite3.connect(database)
@@ -32,6 +33,8 @@ class DB:
         with current_app.open_resource(schema) as f:
             db.executescript(f.read().decode("utf8"))
 
+class posts_db:
+
     def get_posts():
         db = DB.open_db()
         posts = db.execute("SELECT * FROM post").fetchall()
@@ -45,25 +48,72 @@ class DB:
     def add_post(author_id, publised_at, header, article, visebility):
         db = DB.open_db()
         db.execute(f"""
-            INSERT INTO post ("author_id", "publised_at", "header", "article", "visebility")
-            VALUES  ({author_id}, {publised_at}, {header}, {article}, {visebility})""")
+            INSERT INTO post ("author_id", "publised_at", "header", "article", "visebility") 
+            VALUES  ("{author_id}", "{publised_at}", "{header}", "{article}", "{visebility}") """)
         db.commit()
-    
+
     def edit_post(post_id, edited_at, header, article, visebility):
         db = DB.open_db()
         db.execute(f"""
-        update post
-        set edited_at = {edited_at}, 
-            header = {header}, 
-            article = {article}, 
-            visebility = {visebility}
-        where post_id = {post_id}
+        UPDATE post
+        SET edited_at = {edited_at},
+            header = "{header}",
+            article = "{article}",
+            visebility = "{visebility}"
+        WHERE post_id = {post_id}
         """)
         db.commit()
-    
+
     def delete_post(post_id):
         db = DB.open_db()
-        db.execute("DELETE FROM post WHERE id = {post_id}")
+        db.execute(f"DELETE FROM post WHERE post_id = {post_id}")
+        db.commit()
+    
+    def author_name():
+        db = DB.open_db()
+        cur = db.cursor()
+        post_author_name = db.execute(f""" 
+        select p.post_id, p.author_id, u.username
+        from
+        	"user" as u,
+        	"post" as p
+        where
+        	u.user_id = p.author_id;
+        """).fetchall()
+        return post_author_name
+
+
+class user:
+
+    def get_users():
+        db = DB.open_db()
+        users = db.execute("SELECT * FROM user").fetchall()
+        return users
+
+    def get_username(username):
+        db = DB.open_db()
+        user = db.execute(f"SELECT * FROM user WHERE username = '{username}'").fetchone()
+        return user
+
+    def get_userID(user_id):
+        db = DB.open_db()
+        user = db.execute(f"SELECT * FROM user WHERE user_id = {user_id}").fetchone()
+        return user
+
+    def add_user(username, password, registerd_at):
+        db = DB.open_db()
+        db.execute(f"""INSERT INTO user (username, password, registerd_at)
+                       VALUES ("{username}", "{password}", {registerd_at})""")
+        db.commit()
+
+    def edit_user(user_id, username):
+        db = DB.open_db()
+        db.execute(f"UPDATE user set username = '{username}' WHERE user_id = {user_id}")
+        db.commit()
+
+    def delete_user(user_id):
+        db = DB.open_db()
+        db.execute(f"DELETE FROM user WHERE user_id = {user_id} ")
         db.commit()
 
 
