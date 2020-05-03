@@ -1,7 +1,25 @@
+body {
+    background-color: #212121;
+}
+
 main > .container {
     padding: 60px 15px 0;
 }
-  
+
+.post {
+    color: #ffffff;
+    background-color: #323232;
+}
+
+.post > a {
+    color: #0d7377 !important;
+}
+
+
+.post > hr {
+    color: azure !important;
+}
+
 .footer {
     position: fixed;
     left: 0;
@@ -9,7 +27,7 @@ main > .container {
     width: 100%;
     background-color: #343a40;
 }
-  
+
 .footer > .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -18,4 +36,3 @@ main > .container {
 code {
     font-size: 80%;
 }
-  
