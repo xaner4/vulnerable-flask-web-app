@@ -24,23 +24,37 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
+        {% if g.user %}
+          <li class="nav-item">
+            <p class="nav-link">{{ g.user["username"] }}</p>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/logout">logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/user/login">login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/register">register</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </nav>
 
   <main role="main" class="flex-shrink-0">
     <div class="container pb-5">
-      {% if err %}
-        <div class="container alert alert-warning" role="alert">
-          <p>{{err}}</p>
-        </div>
-      {% endif %}
+      {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="container alert alert-{{category}}" role="alert">
+              <p>{{msg}}</p>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
       {% block content %}{% endblock %}
     </div>
   </main>
