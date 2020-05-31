@@ -2,8 +2,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_id` INTEGER PRIMARY KEY,
   `username` TEXT CHECK ( LENGTH(username) <= 255) UNIQUE NOT NULL,
   `password` TEXT NOT NULL,
-  `registred_at` INTEGER,
-  `role` TEXT CHECK( role in ('admin', 'moderator', 'author', 'guest', 'blocked') ),
+  `registered_at` INTEGER,
+  `role` TEXT DEFAULT "guest" CHECK( role in ('admin', 'moderator', 'author', 'guest', 'blocked') ),
   FOREIGN KEY (`role`) REFERENCES `roles` (`role_name`)
 );
 
