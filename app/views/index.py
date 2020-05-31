@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, g
 from werkzeug.exceptions import abort
 
 from app.db import posts_db
