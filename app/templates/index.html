@@ -4,9 +4,9 @@
 {% block content %}
     {% for post in posts%}
         {% if post["visebility"] == "public" %}
-            <article class="post border border-dark shadow rounded  mb-3 p-4">
+            <article class="post border border-dark shadow rounded mb-4 p-4">
                 <header>
-                    <h1 class="title"><a href="/post/{{post["post_id"]}}">{{post["title"]}}</a></h1>
+                    <h1 class="title"><a href="/post/{{post['post_id']}}">{{post["title"]}}</a></h1>
                     <p>
                         {% if post["post_id"] in authors%}
                             <span class="author"><strong>Author: </strong> {{authors[post["post_id"]]["username"]}} </span>
@@ -15,6 +15,7 @@
                         {% if post["edited_at"] %}
                             <span class="edited ml-4"><strong>Edited:</strong> <time>{{post["edited_at"]}}</time> </span>
                         {% endif %}
+                            <span class="visebility ml-4"><strong>visebility: </strong> {{post["visebility"]}} </span>
                     </p>
                 </header>
                 <hr/>
