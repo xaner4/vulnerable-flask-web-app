@@ -19,11 +19,12 @@
                 {% if post["edited_at"] %}
                     <span class="edited ml-4"><strong>Edited:</strong> <time>{{post["edited_at"]}}</time> </span>
                 {% endif %}
+                    <span class="visebility ml-4"><strong>visebility: </strong> {{post["visebility"]}} </span>
             </p>
         </header>
         <hr/>
         <section>
-            <p>{{post["article"]}}</p>
+            <p>{{post["article"]|safe}}</p>
         </section>
     </article>
 {% endblock %}
