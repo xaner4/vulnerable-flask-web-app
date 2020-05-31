@@ -53,4 +53,3 @@ def edit_post(post_id: int):
             abort(404, f"A post with id {post_id} does not exsist")
         else:
             return render_template("post/edit.html", post=post)
-        
