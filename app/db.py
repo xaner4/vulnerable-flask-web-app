@@ -83,7 +83,7 @@ class posts_db:
         return post_author_name
 
 
-class user:
+class user_db:
 
     def get_users():
         db = DB.open_db()
@@ -93,6 +93,7 @@ class user:
     def get_username(username):
         db = DB.open_db()
         user = db.execute(f"SELECT * FROM user WHERE username = '{username}'").fetchone()
+        print(f"user={user}")
         return user
 
     def get_userID(user_id):
@@ -100,10 +101,10 @@ class user:
         user = db.execute(f"SELECT * FROM user WHERE user_id = {user_id}").fetchone()
         return user
 
-    def add_user(username, password, registerd_at):
+    def add_user(username, password, registered_at):
         db = DB.open_db()
-        db.execute(f"""INSERT INTO user (username, password, registerd_at)
-                       VALUES ("{username}", "{password}", {registerd_at})""")
+        db.execute(f"""INSERT INTO user (username, password, registered_at)
+                       VALUES ("{username}", "{password}", {registered_at})""")
         db.commit()
 
     def edit_user(user_id, username):
