@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <div class="container-sm border border-dark shadow rounded mb-3 p-4">
+        <h2>Login</h2>
+        <form action="#" method="POST" class="px-5">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </form>
+    </div>
+{% endblock %}

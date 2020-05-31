@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+
+{% block header %}{% endblock %}
+
+{% block content %}
+    <div class="container-sm border border-dark shadow rounded  mb-3 p-4">
+        <h2>Add post</h2>
+        <form action="" method="POST" class="px-5" id="addpost">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="username" name="title" placeholder="Post Tilte">
+            </div>
+            <div class="form-group">
+                <label for="article">Article</label>
+                <textarea rows="5" cols="104" name="article" form="addpost"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="visebility">Visebility</label>
+                <select name="visebility" id="visebility-select">
+                    <option value="" disabled>Select visebility status</option>
+                    <option value="public">Public</option>
+                    <option value="hidden">Hidden</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
