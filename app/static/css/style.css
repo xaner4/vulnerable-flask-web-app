@@ -1,4 +1,9 @@
+html {
+    color: white;
+}
+
 body {
+    color: white;
     background-color: #212121;
 }
 
@@ -7,7 +12,6 @@ main > .container {
 }
 
 .post {
-    color: #ffffff;
     background-color: #323232;
 }
 
