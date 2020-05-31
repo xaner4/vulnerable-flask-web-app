@@ -93,7 +93,6 @@ class user_db:
     def get_username(username):
         db = DB.open_db()
         user = db.execute(f"SELECT * FROM user WHERE username = '{username}'").fetchone()
-        print(f"user={user}")
         return user
 
     def get_userID(user_id):
