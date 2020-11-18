@@ -2,7 +2,7 @@
 
 A vulnerable web app for testing purposes
 
-## Install app
+## Install and start flask application
 
 Install pipenv on your system
 
@@ -34,3 +34,5 @@ start the flask app
 ```bash
 flask run
 ```
+
+PS. test data is not automaticly importet, but it can be done with the use of something like [sqlite browser](https://sqlitebrowser.org/)
